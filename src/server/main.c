@@ -75,7 +75,7 @@ main
 	ENetHost *server = enet_host_create(&address, max_players, 2, 0, 0);
 	if (server == NULL)
 	{
-		fprintf(stderr, "Failed to initialize server.\n");
+		fprintf(stderr, "Failed to initialize server ENetHost.\n");
 		return EXIT_FAILURE;
 	}
 	else
