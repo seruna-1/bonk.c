@@ -1,6 +1,6 @@
 #include "raylib.h"
 
-#include "client/game.h"
+#include "game.h"
 
 static inline
 enum GameSegment

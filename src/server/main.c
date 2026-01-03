@@ -1,96 +1,39 @@
-#include <enet/enet.h>
+#include "server.h"
 #include <stdio.h>
 
-const int max_players = 32;
-
-static inline
-void
-server_handle_network_event_connection
-(void)
-{
-	printf("Player connected.\n");
-}
-
-static inline
-void
-server_handle_network_event_disconnection
-(void)
-{
-	printf("Player disconnected.\n");
-}
-
-static inline
-void
-server_handle_network_event_stillness
-(void)
-{
-	return;
-}
-
-static inline
-void
-server_handle_network_event_reception
-(void)
-{
-	return;
-}
+// From network.c
 
 static inline
 void
 server_handle_network_event
-(ENetEvent event)
-{
-	switch (event.type)
-	{
-		case ENET_EVENT_TYPE_CONNECT:
-			server_handle_network_event_connection();
-			break;
+(ENetEvent event);
 
-		case ENET_EVENT_TYPE_DISCONNECT:
-			server_handle_network_event_disconnection();
-			break;
+static
+bool
+server_network_initialize
+(struct ServerNetworking *networking);
 
-		case ENET_EVENT_TYPE_RECEIVE:
-			server_handle_network_event_reception();
-			break;
+#include "network.c"
 
-		case ENET_EVENT_TYPE_NONE:
-			server_handle_network_event_stillness();
-			break;
-	}
-}
+#include "world.c"
 
 int
 main
 (void)
 {
-	if (enet_initialize() != 0)
-	{
-		fprintf(stderr, "Failed to initialize enet.\n");
-		return EXIT_FAILURE;
-	}
+	struct Server server = {0};
 
-	ENetAddress address = { .host = ENET_HOST_ANY, .port = 1234 };
-
-	ENetHost *server = enet_host_create(&address, max_players, 2, 0, 0);
-	if (server == NULL)
-	{
-		fprintf(stderr, "Failed to initialize server ENetHost.\n");
-		return EXIT_FAILURE;
-	}
-	else
-	{ printf("Server started on port %d.\n", address.port); }
+	if (!server_network_initialize(&server.networking))
+	{ return EXIT_FAILURE; }
 
 	bool keep_server_running = true;
 	while (keep_server_running)
 	{
-		ENetEvent event = { 0 };
-
-		if (enet_host_service(server, &event, 1000) > 0)
-		{ server_handle_network_event(event); }
+		if (enet_host_service(server.networking.host, &server.networking.event, 1000) > 0)
+		{ server_handle_network_event(server.networking.event); }
 	}
 
-	enet_host_destroy(server);
+	enet_host_destroy(server.networking.host);
 	printf("Enet host destroyed.\n");
 
 	return EXIT_SUCCESS;

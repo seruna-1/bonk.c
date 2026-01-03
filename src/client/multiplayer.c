@@ -1,5 +1,5 @@
-#include "client/game.h"
-#include "./network.c"
+#include "game.h"
+#include "network.c"
 
 static inline
 enum GameSegment

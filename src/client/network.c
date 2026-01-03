@@ -1,4 +1,4 @@
-#include "client/game.h"
+#include "game.h"
 
 static inline
 bool

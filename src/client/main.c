@@ -3,10 +3,10 @@
 
 #include "raylib.h"
 
-#include "client/game.h"
-#include "./start_menu.c"
-#include "./multiplayer.c"
-#include "./singleplayer.c"
+#include "game.h"
+#include "start_menu.c"
+#include "multiplayer.c"
+#include "singleplayer.c"
 
 int
 main
