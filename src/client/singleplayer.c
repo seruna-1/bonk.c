@@ -19,7 +19,6 @@ game_singleplayer_handle
 			20,
 			BLACK
 		);
-
 		EndDrawing();
 	}
 	return START_MENU;

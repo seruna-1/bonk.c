@@ -12,6 +12,17 @@ game_multiplayer_handle
 	{
 		if (!game_network_update(game))
 		{ game->networking.state = DISCONNECTING; }
+
+		BeginDrawing();
+		ClearBackground(WHITE);
+		DrawText(
+			"We are in multiplayer :3\n",
+			20,
+			20,
+			20,
+			BLACK
+		);
+		EndDrawing();
 	}
 
 	enet_peer_reset(game->networking.server);

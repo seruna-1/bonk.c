@@ -60,7 +60,7 @@ game_network_update
 			else { game->networking.state = CONNECTED; }
 			break;
 		case CONNECTED:
-			enet_host_service(game->networking.client, &game->networking.event, 0);
+			enet_host_service(game->networking.client, &game->networking.event, 30);
 			break;
 		case DISCONNECTING:
 		case DISCONNECTED:
